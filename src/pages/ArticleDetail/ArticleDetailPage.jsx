@@ -43,7 +43,14 @@ const tagsData = [
 ]
 
 
+import {useSelector, useDispatch} from 'react-redux'
+import { increment, decerement } from "../../store/slices/count.slice.js";
+
 export default function ArticleDetailPage() {
+
+    const value = useSelector((state) => state.countSlice.value)
+    const dispatch = useDispatch()
+
   return (
     <MainLayout>
         <section className='flex flex-col container mx-auto p-4 max-w-fit lg:flex-row gap-x-5'>
@@ -60,6 +67,13 @@ export default function ArticleDetailPage() {
 
             </article>
             <SuggestedPost header={"Suggested Post"} post = {SuggestedPostData} tags={tagsData}/>
+
+
+            <div className = "m-5">
+                <button onClick = {() => dispatch(increment())}>inc</button>
+                {value}
+                <button onClick = {() => dispatch(decerement())}>dec</button>
+            </div>
         </section>
     </MainLayout>
   )
