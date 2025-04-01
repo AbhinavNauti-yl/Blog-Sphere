@@ -1,7 +1,12 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 
 import { CgMenuRightAlt } from "react-icons/cg";
 import { MdOutlineCloseFullscreen } from "react-icons/md";
+import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+import { logout } from '../serveices/index/user';
+import toast from 'react-hot-toast';
+import { resetUserInfo } from '../store/slices/user.slice';
 
 
 const NavItem = ({name}) => {
@@ -25,6 +30,7 @@ const navItemInfo = [
 
 
 function Header() {
+
   
   const [isNavVisible, setNavVisible] = useState(false)
   const chaneVisiblity = () => {
@@ -33,6 +39,26 @@ function Header() {
     })
   }
 
+  const user = useSelector(state => state.userSlice)  
+
+  const navigate = useNavigate()
+  const toSignUp = () => {
+    navigate("/register")
+  }
+
+  const toLogin = () => {
+    navigate("/login")
+  }
+
+  const profile = () => {
+    navigate("/profile")
+  }
+
+  const dispatch = useDispatch()
+  const logoutUser = () => {
+    const response = logout()
+    dispatch(resetUserInfo(response.data))
+  }
 
   return (
     <div className='sticky left-0 right-0 top-0 z-51 bg-[#023047]'>
@@ -50,7 +76,16 @@ function Header() {
                         <NavItem key={items.name} name={items.name} />
                     ))}
                 </ul>
-                <button className='border-1 text-cyan-400 px-3 rounded-2xl hover:bg-blue-400 hover:text-white hover:transition-all duration-150 w-30'>Sign In</button>
+
+                
+                <button onClick={() => toSignUp()} className={`${user.userInfo ? "hidden disabled" : "block"}  border-1 text-cyan-400 px-3 rounded-2xl hover:bg-blue-400 hover:text-white hover:transition-all duration-150 w-30`}>Sign Up</button>
+
+                <button onClick={() => toLogin()} className={`${user.userInfo ? "hidden disabled" : "block"}  border-1 text-cyan-400 px-3 rounded-2xl hover:bg-blue-400 hover:text-white hover:transition-all duration-150 w-30`}>Log In</button>
+
+
+                <button onClick={() => profile()} className={`${!user.userInfo ? "hidden disabled" : "block"}  border-1 text-cyan-400 px-3 rounded-2xl hover:bg-blue-400 hover:text-white hover:transition-all duration-150 w-30`}>Profile</button>
+
+                <button onClick={() => logoutUser()} className={`${!user.userInfo ? "hidden disabled" : "block"}  border-1 text-cyan-400 px-3 rounded-2xl hover:bg-blue-400 hover:text-white hover:transition-all duration-150 w-30`}>Log out</button>
             </div>
         </header>
       </section>

@@ -43,9 +43,6 @@ const tagsData = [
 ]
 
 
-import {useSelector, useDispatch} from 'react-redux'
-import { increment, decerement } from "../../store/slices/count.slice.js";
-
 export default function ArticleDetailPage() {
 
     const value = useSelector((state) => state.countSlice.value)
@@ -69,11 +66,7 @@ export default function ArticleDetailPage() {
             <SuggestedPost header={"Suggested Post"} post = {SuggestedPostData} tags={tagsData}/>
 
 
-            <div className = "m-5">
-                <button onClick = {() => dispatch(increment())}>inc</button>
-                {value}
-                <button onClick = {() => dispatch(decerement())}>dec</button>
-            </div>
+            
         </section>
     </MainLayout>
   )
