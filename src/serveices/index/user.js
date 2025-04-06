@@ -1,6 +1,4 @@
 import axios from "axios";
-import { useDispatch } from "react-redux";
-import { resetUserInfo } from "../../store/slices/user.slice";
 
 export const signup = async ({name, email, password}) => {
   try {
@@ -70,6 +68,37 @@ export const getProfile = async () => {
     if(error.response && error.response.data.message){
       throw new Error(error.response.data.message)
     }
+    throw new Error(error.message)
+  }
+}
+
+export const updateProfile = async ({name, email, password}) => {
+  try {
+    const response = await axios.post("api/users/updateProfile", {
+      name, email, password
+    })
+    return response
+  } catch (error) {
+    if(error.response && error.response.data.message){
+      throw new Error(error.response.data.message)
+    }
+
+    throw new Error(error.message)
+  }
+}
+
+export const deleteProfileAvatar = async () => {
+  try {
+    const response = await axios.get("api/users/deleteProfileAvatar", {
+      Credential: true
+    })
+    
+    return response
+  } catch (error) {
+    if(error.response && error.response.data.message) {
+      throw new Error (error.response.data.message)
+    }
+
     throw new Error(error.message)
   }
 }
