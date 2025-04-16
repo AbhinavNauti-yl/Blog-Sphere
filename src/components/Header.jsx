@@ -4,7 +4,7 @@ import { CgMenuRightAlt } from "react-icons/cg";
 import { MdOutlineCloseFullscreen } from "react-icons/md";
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { logout } from '../serveices/index/user';
+import { logout } from '../services/index/user';
 import toast from 'react-hot-toast';
 import { resetUserInfo } from '../store/slices/user.slice';
 

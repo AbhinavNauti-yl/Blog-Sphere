@@ -2,9 +2,9 @@ import React, { useEffect } from 'react'
 import MainLayout from '../../components/MainLayout'
 import {data, Link, useNavigate} from 'react-router-dom'
 import {useForm} from 'react-hook-form'
-import { useMutation } from '@tanstack/react-query'
+import { useMutation } from 'react-query'
 
-import { signup } from '../../serveices/index/user'
+import { signup } from '../../services/index/user'
 import toast from 'react-hot-toast'
 import { useSelector } from 'react-redux'
 

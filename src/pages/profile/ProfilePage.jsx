@@ -1,11 +1,12 @@
 import React, { useEffect } from 'react'
 import MainLayout from '../../components/MainLayout'
 import { useSelector } from 'react-redux'
-import { useMutation, useQuery } from '@tanstack/react-query'
+import { useMutation, useQuery } from 'react-query'
 import { useForm } from 'react-hook-form'
 import { useNavigate } from 'react-router-dom'
-import { getProfile, updateProfile } from '../../serveices/index/user'
+import { getProfile, updateProfile } from '../../services/index/user'
 import ProgfileAvata from './ProgfileAvata'
+import toast from 'react-hot-toast'
 
 
 export default function ProfilePage() {
@@ -53,8 +54,8 @@ export default function ProfilePage() {
       password: "",
     },
     values:{
-      name: isPending ? "" :  profileData.name,
-      email: isPending ? "" :  profileData.email,
+      name: isPending ? "" :  profileData?.name,
+      email: isPending ? "" :  profileData?.email,
     },
     mode: 'onChange',
   })

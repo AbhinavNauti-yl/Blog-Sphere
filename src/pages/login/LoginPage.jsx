@@ -2,8 +2,8 @@ import React, { useEffect } from "react";
 import MainLayout from "../../components/MainLayout";
 import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
-import { login } from "../../serveices/index/user";
-import { useMutation } from "@tanstack/react-query";
+import { login } from "../../services/index/user";
+import { useMutation } from "react-query";
 import {useDispatch, useSelector} from "react-redux"
 import toast from "react-hot-toast";
 import { setUserInfo } from "../../store/slices/user.slice";

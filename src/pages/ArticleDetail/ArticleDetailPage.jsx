@@ -1,87 +1,119 @@
 import React from "react";
 import MainLayout from "../../components/MainLayout";
 import BreadCrumbs from "../../components/BreadCrumbs";
+import ArtticleDetailSkeleton from "./component/ArticleDetailSkeleton.jsx";
 import { useParams } from "react-router-dom";
 import images from "../../constants/images";
 import SuggestedPost from "./continer/SuggestedPost";
-import { useQuery } from "@tanstack/react-query";
-import { getParticularPost } from "../../serveices/index/post.js";
+import { useQuery } from "react-query";
+import { getAllPost, getParticularPost } from "../../services/index/post.js";
 import { useState } from "react";
 
+import parse from "html-react-parser";
 
-const SuggestedPostData = [
-  {
-    _id: 1,
-    image: images.p1,
-    title: "Help poor feed them daily",
-    createdAt: "10 feb",
-  },
-  {
-    _id: 2,
-    image: images.p1,
-    title: "Help poor feed them daily",
-    createdAt: "10 feb",
-  },
-  {
-    _id: 3,
-    image: images.p1,
-    title: "Help poor feed them daily",
-    createdAt: "10 feb",
-  },
-];
+import { generateHTML } from "@tiptap/html";
+import Bold from "@tiptap/extension-bold";
+import Document from "@tiptap/extension-document";
+import Paragraph from "@tiptap/extension-paragraph";
+import Text from "@tiptap/extension-text";
+import Italic from "@tiptap/extension-italic";
+import ErroMessage from "../../components/ErroMessage.jsx";
+
+// const SuggestedPostData = [
+//   {
+//     _id: 1,
+//     image: images.p1,
+//     title: "Help poor feed them daily",
+//     createdAt: "10 feb",
+//   },
+//   {
+//     _id: 2,
+//     image: images.p1,
+//     title: "Help poor feed them daily",
+//     createdAt: "10 feb",
+//   },
+//   {
+//     _id: 3,
+//     image: images.p1,
+//     title: "Help poor feed them daily",
+//     createdAt: "10 feb",
+//   },
+// ];
 
 const tagsData = ["Animal", "Education", "Wealth", "Nature", "Birds"];
 
 export default function ArticleDetailPage() {
   const { slug } = useParams();
 
-  const [breadCrumbsData, setBreadCrumbsData] = useState([])
+  const [breadCrumbsData, setBreadCrumbsData] = useState([]);
+  const [body, setBody] = useState(null);
 
+  // for getting a particular post
   const { data, isError, isPending } = useQuery({
+    queryKey: ["newPost", slug],
     queryFn: () => {
-      setBreadCrumbsData([
-        { name: "Home", link: "/" },
-        { name: "blog", link: "/blog" },
-        { name: "Article title", link: `/blog/${slug}` }
-      ])
       return getParticularPost({ slug });
     },
     onSuccess: (response) => {
-      console.log("check1")
+      setBreadCrumbsData([
+        { name: "Home", link: "/" },
+        { name: "blog", link: "/blog" },
+        { name: "Article title", link: `/blog/${slug}` },
+      ]);
+
+      setBody(
+        parse(
+          generateHTML(response?.body, [
+            Bold,
+            Paragraph,
+            Italic,
+            Text,
+            Document,
+          ])
+        )
+      );
     },
-    queryKey: ["newPost"],
   });
+
+
+  //for gettting suggest post
+  const {data: SuggestedPostData} = useQuery({
+    queryKey: ["posts"],
+    queryFn: () => {
+      return getAllPost()
+    },
+  })
 
   return (
     <MainLayout>
-      <section className="flex flex-col container mx-auto p-4 max-w-fit lg:flex-row gap-x-5">
-        <article className="flex flex-col ">
-          <BreadCrumbs data={breadCrumbsData} />
+      {isPending ? (
+        <ArtticleDetailSkeleton />
+      ) : isError ? (
+        <ErroMessage message="Could not fetch this article" />
+      ) : (
+        <section className="container mx-auto max-w-5xl flex flex-col px-5 py-5 lg:flex-row lg:gap-x-5 lg:items-start">
+          <article className="flex-1 flex-col ">
+            <BreadCrumbs data={breadCrumbsData} />
 
-          <img src={data?.photo} className="rounded-2xl p-2 object-cover" alt="image here" />
+            <img
+              src={data?.photo}
+              className="rounded-2xl p-2 object-cover"
+              alt="image here"
+            />
 
-          <h1 className="text-3xl">{data?.title}</h1>
+            <h1 className="text-3xl">{data?.title}</h1>
 
-          <p className="py-3">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Ratione
-            ipsam eum minima soluta quibusdam illum ut id accusantium ducimus,
-            vel fugiat facere adipisci quam officia. Beatae rem placeat porro
-            unde, expedita a corporis libero quod et doloremque provident
-            labore. Porro labore quisquam quod, aspernatur iste architecto
-            consectetur! Laudantium illum, commodi unde provident id, nam eos
-            fuga saepe fugiat eius accusantium libero quod corporis recusandae?
-            Iure repellendus delectus hic, ex at eum veritatis. Consequuntur
-            molestias tempore amet soluta iste obcaecati blanditiis laudantium.
-            Assumenda cumque, ratione ab voluptate culpa fuga? Obcaecati ullam
-            omnis atque dicta aliquam dolorem sunt in minima modi nemo.
-          </p>
-        </article>
-        <SuggestedPost
-          header={"Suggested Post"}
-          post={SuggestedPostData}
-          tags={tagsData}
-        />
-      </section>
+            {body}
+          </article>
+          <div className="mt-7">
+            <SuggestedPost
+              header={"Suggested Post"}
+              post={SuggestedPostData}
+              tags={data?.tags}
+            />
+          </div>
+        </section>
+      )}
     </MainLayout>
   );
 }
