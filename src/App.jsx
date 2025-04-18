@@ -8,7 +8,9 @@ import RegisterPage from './pages/register/RegisterPage'
 import {Toaster} from 'react-hot-toast'
 import LoginPage from './pages/login/LoginPage'
 import ProfilePage from './pages/profile/profilePage'
-
+import AdminLayout from './pages/admin/AdminLayout'
+import Admin from './pages/admin/screens/Admin'
+import Comment from './pages/admin/screens/Comment'
 
 function App() {
 
@@ -20,6 +22,10 @@ function App() {
         <Route path='/register' element = {<RegisterPage />} />
         <Route path='/login' element = {<LoginPage />} />
         <Route path='/profile' element = {<ProfilePage />} />
+        <Route path='/admin' element = {<AdminLayout />}>
+          <Route index element= {<Admin />} />
+          <Route path='comment' element= {<Comment />} />
+        </Route>
       </Routes>
       <Toaster />
     </>

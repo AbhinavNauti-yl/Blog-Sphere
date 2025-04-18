@@ -17,6 +17,7 @@
     "@tiptap/pm": "^2.11.7",
     "@tiptap/react": "^2.11.7",
     "@tiptap/starter-kit": "^2.11.7",
+    "@uidotdev/usehooks": "^2.4.1",
     "axios": "^1.8.2",
     "daisyui": "^4.12.23",
     "html-react-parser": "^5.2.3",
