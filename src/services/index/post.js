@@ -1,9 +1,9 @@
 import axios from "axios"
 
-const getAllPost = async () => {
+const getAllPost = async ( search = '', page = 1, limit = 10 ) => {
     try {
-        const response = await axios.get("/api/posts")
-        return response.data.data
+        const {data, headers} = await axios.get(`/api/posts?search=${search}&page=${page}&limit=${limit}`)
+        return {data, headers}
     } catch (error) {
         if(error.response && error.response.data.message){
             throw new Error(error.response.data.message)

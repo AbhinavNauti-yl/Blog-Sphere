@@ -62,7 +62,7 @@ export const getProfile = async () => {
       Credential: true,
     })
     
-    return response.data.data
+    return response.data.data || null
 
   } catch (error) {
     if(error.response && error.response.data.message){

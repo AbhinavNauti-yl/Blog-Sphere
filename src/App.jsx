@@ -11,6 +11,7 @@ import ProfilePage from './pages/profile/profilePage'
 import AdminLayout from './pages/admin/AdminLayout'
 import Admin from './pages/admin/screens/Admin'
 import Comment from './pages/admin/screens/Comment'
+import ManagePost from './pages/admin/screens/post/ManagePost'
 
 function App() {
 
@@ -25,6 +26,7 @@ function App() {
         <Route path='/admin' element = {<AdminLayout />}>
           <Route index element= {<Admin />} />
           <Route path='comment' element= {<Comment />} />
+          <Route path='post' element= {<ManagePost />} />
         </Route>
       </Routes>
       <Toaster />

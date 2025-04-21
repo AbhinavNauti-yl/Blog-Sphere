@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 import MainLayout from '../../components/MainLayout'
 import { useSelector } from 'react-redux'
-import { useMutation, useQuery } from 'react-query'
+import { useMutation, useQuery } from '@tanstack/react-query'
 import { useForm } from 'react-hook-form'
 import { useNavigate } from 'react-router-dom'
 import { getProfile, updateProfile } from '../../services/index/user'

@@ -1,7 +1,7 @@
 import React from 'react'
 import ArticleCard from '../../../components/ArticleCard'
 import { MdExpandMore } from "react-icons/md";
-import {useQuery} from "react-query"
+import {useQuery} from "@tanstack/react-query"
 import toast from 'react-hot-toast';
 import { getAllPost } from '../../../services/index/post';
 import ArticleCardSkeleton from '../../../components/ArticleCardSkeleton';
@@ -29,7 +29,7 @@ export default function Articles() {
           isError ? (
             <ErroMessage message="Could not fetch Artcles" />
           ) :
-           data?.map((post) => 
+           data?.data?.data.map((post) => 
             <ArticleCard key={post._id} post={post} className = "w-full md:w-[calc(50%-20px)] lg:w-[calc(33.33%-20px)]" />
           )}
 

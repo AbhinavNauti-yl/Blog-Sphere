@@ -9,7 +9,7 @@ export default function ArticleCard({post, className}) {
     <div className={`rounded-2xl mt-5 overflow-hidden shadow-[0px_10px_1px_rgba(221,_221,_221,_1),_0_10px_20px_rgba(204,_204,_204,_1)] ${className}`}>
       
       <Link to= {`/blog/${post.slug}`}>
-        <img src={post.photo} alt="image here" className='w-full object-cover object-center h-auto md:h-52 lg:h-48 xl:h-60'/>
+        <img src={post.photo || images?.sampleImage} alt="image here" className='w-full object-cover object-center h-auto md:h-52 lg:h-48 xl:h-60'/>
       </Link>
 
       <div className='p-4'>

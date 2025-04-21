@@ -1,7 +1,7 @@
 import React from 'react'
 import { CiCamera } from "react-icons/ci";
 import { deleteProfileAvatar } from '../../services/index/user';
-import { useQuery } from 'react-query';
+import { useQuery } from '@tanstack/react-query';
 
 export default function ProgfileAvata({avatar}) {
 

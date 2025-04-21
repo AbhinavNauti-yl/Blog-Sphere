@@ -13,6 +13,7 @@
   "dependencies": {
     "@reduxjs/toolkit": "^2.6.0",
     "@tailwindcss/vite": "^4.0.3",
+    "@tanstack/@tanstack/react-query": "^5.74.4",
     "@tiptap/html": "^2.11.7",
     "@tiptap/pm": "^2.11.7",
     "@tiptap/react": "^2.11.7",
@@ -27,7 +28,6 @@
     "react-hot-toast": "^2.5.2",
     "react-icon": "^1.0.0",
     "react-icons": "^5.4.0",
-    "react-query": "^4.0.0",
     "react-redux": "^9.2.0",
     "react-router-dom": "^7.1.5",
     "tailwindcss": "^4.0.3"

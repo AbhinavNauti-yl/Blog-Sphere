@@ -3,27 +3,29 @@ import { CgMenuRightAlt } from "react-icons/cg";
 import { MdOutlineCloseFullscreen } from "react-icons/md";
 import { Link } from "react-router-dom";
 import NavItem from "./NavItem";
-import {useWindowSize} from '@uidotdev/usehooks'
+import { useWindowSize } from "@uidotdev/usehooks";
 
-import { AiFillDashboard, AiOutlineClose, AiOutlineMenu } from "react-icons/ai";
+import { AiFillDashboard } from "react-icons/ai";
+import { FaRegCommentDots } from "react-icons/fa";
+import { MdDashboard } from "react-icons/md";
 
 export default function Header() {
   const [isMenuActive, setIsmenuActive] = useState(false);
   const [activeNavName, setActiveNavName] = useState("dashboard");
 
-  const windowSize = useWindowSize()
+  const windowSize = useWindowSize();
 
   const toggleMenuHandler = () => {
     setIsmenuActive((state) => !state);
   };
 
   useEffect(() => {
-    if(windowSize.width < 1024) {
-      setIsmenuActive(false)
+    if (windowSize.width < 1024) {
+      setIsmenuActive(false);
     } else {
-      setIsmenuActive(true)
+      setIsmenuActive(true);
     }
-  }, [windowSize.width])
+  }, [windowSize.width]);
 
   return (
     <header className="flex h-fit w-full items-center justify-between p-4 lg:h-full lg:max-w-[300px] lg:flex-col lg:items-start lg:justify-start lg:p-0">
@@ -73,8 +75,17 @@ export default function Header() {
               <NavItem
                 title="Comments"
                 link="/admin/comment"
-                icon={<AiOutlineMenu className="text-xl" />}
+                icon={<FaRegCommentDots className="text-xl" />}
                 name="comment"
+                activeNavName={activeNavName}
+                setActiveNavName={setActiveNavName}
+              />
+
+              <NavItem
+                title="Posts"
+                link="/admin/post"
+                icon={<MdDashboard className="text-xl" />}
+                name="post"
                 activeNavName={activeNavName}
                 setActiveNavName={setActiveNavName}
               />

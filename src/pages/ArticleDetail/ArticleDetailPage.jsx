@@ -5,7 +5,7 @@ import ArtticleDetailSkeleton from "./component/ArticleDetailSkeleton.jsx";
 import { useParams } from "react-router-dom";
 import images from "../../constants/images";
 import SuggestedPost from "./continer/SuggestedPost";
-import { useQuery } from "react-query";
+import { useQuery } from "@tanstack/react-query";
 import { getAllPost, getParticularPost } from "../../services/index/post.js";
 import { useState } from "react";
 
