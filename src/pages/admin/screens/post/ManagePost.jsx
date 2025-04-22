@@ -1,30 +1,33 @@
-import React, { useState } from "react";
-import { useQuery } from "@tanstack/react-query";
-import { getAllPost } from "../../../../services/index/post";
+import React, { useEffect, useState } from "react";
+import { useMutation, useQuery } from "@tanstack/react-query";
+import { deletePost, getAllPost } from "../../../../services/index/post";
 import images from "../../../../constants/images";
-import { data } from "react-router-dom";
+import Pagination from "../../../../components/Pagination";
+import toast from "react-hot-toast";
+import { Link, useNavigate } from "react-router-dom";
+
+let isFirstTime = true;
 
 export default function Post() {
+  const [search, setSearch] = useState("");
+  const [currentPage, setCurrentPage] = useState(1);
 
-  const [search, setSearch] = useState('')
+  const navigate = useNavigate();
 
-  const changeSearchKeyword = (e) =>{
-    setSearch(e.target.value)
-  }
-
-  
-
+  const changeSearchKeyword = (e) => {
+    setSearch(e.target.value);
+  };
 
   const {
     data: postData,
     isError,
     isPending,
-    refetch
+    refetch,
   } = useQuery({
     queryFn: () => {
-      return getAllPost(search);
+      return getAllPost(search, currentPage);
     },
-    queryKey: ["posts"],
+    queryKey: ["posts", currentPage],
     onSuccess: (postData) => {
       console.log(postData);
     },
@@ -35,11 +38,40 @@ export default function Post() {
     },
   });
 
+  const { mutate: mutatePostDelete, isPending: isDeletePending } = useMutation({
+    mutationFn: ({ slug }) => {
+      return deletePost({ slug });
+    },
+    onSuccess: (response) => {
+      if (response) {
+        toast.success("Post deleted");
+        refetch();
+        navigate("/admin/post");
+      }
+    },
+    onError: (response) => {
+      toast.error(response.message);
+    },
+  });
+
+  useEffect(() => {
+    if (isFirstTime) {
+      isFirstTime = false;
+      return;
+    }
+
+    refetch;
+  }, [refetch, currentPage]);
 
   const makeSearchUsingSearchKeyword = (e) => {
-    e.preventDefault()
-    refetch()
-  }
+    e.preventDefault();
+    refetch();
+    setCurrentPage(1);
+  };
+
+  const handelDelete = ({ slug }) => {
+    mutatePostDelete({ slug });
+  };
 
   return (
     <div className="z-0">
@@ -50,7 +82,10 @@ export default function Post() {
           <div className="flex flex-row justify-between w-full mb-1 sm:mb-0">
             <h2 className="text-2xl leading-tight">Posts</h2>
             <div className="text-end">
-              <form onSubmit={makeSearchUsingSearchKeyword} className="flex flex-col justify-center w-3/4 max-w-sm space-y-3 md:flex-row md:w-full md:space-x-3 md:space-y-0">
+              <form
+                onSubmit={makeSearchUsingSearchKeyword}
+                className="flex flex-col justify-center w-3/4 max-w-sm space-y-3 md:flex-row md:w-full md:space-x-3 md:space-y-0"
+              >
                 <div className=" block ">
                   <input
                     type="text"
@@ -112,6 +147,14 @@ export default function Post() {
                         Loading...
                       </td>
                     </tr>
+                  ) : isError || postData?.length == 0 ? (
+                    <td className="px-5 py-5 text-sm bg-white border-b border-gray-200 ">
+                      No Post Found.
+                    </td>
+                  ) : postData?.length == 0 ? (
+                    <td className="px-5 py-5 text-sm bg-white border-b border-gray-200 ">
+                      No Post Found.
+                    </td>
                   ) : (
                     postData?.data?.data.map((post, index) => (
                       <tr key={index}>
@@ -164,13 +207,19 @@ export default function Post() {
                             )}
                           </span>
                         </td>
-                        <td className="px-5 py-5 text-sm bg-white border-b border-gray-200">
-                          <a
+                        <td className="px-5 py-5 text-md bg-white border-b border-gray-200 flex-row space-x-2 ">
+                          <button
+                            onClick={() => handelDelete({ slug: post?.slug })}
+                            className="text-red-600 hover:text-red-800 cursor-pointer"
+                          >
+                            Delte
+                          </button>
+                          <Link
                             href="/"
                             className="text-indigo-600 hover:text-indigo-900"
                           >
                             Edit
-                          </a>
+                          </Link>
                         </td>
                       </tr>
                     ))
@@ -178,64 +227,13 @@ export default function Post() {
                 </tbody>
               </table>
 
-              <div className="flex flex-col items-center px-5 py-5 bg-white xs:flex-row xs:justify-between">
-                <div className="flex items-center">
-                  <button
-                    type="button"
-                    className="w-full p-4 text-base text-gray-600 bg-white border rounded-l-xl hover:bg-gray-100"
-                  >
-                    <svg
-                      width="9"
-                      fill="currentColor"
-                      height="8"
-                      className=""
-                      viewBox="0 0 1792 1792"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path d="M1427 301l-531 531 531 531q19 19 19 45t-19 45l-166 166q-19 19-45 19t-45-19l-742-742q-19-19-19-45t19-45l742-742q19-19 45-19t45 19l166 166q19 19 19 45t-19 45z"></path>
-                    </svg>
-                  </button>
-                  <button
-                    type="button"
-                    className="w-full px-4 py-2 text-base text-indigo-500 bg-white border-t border-b hover:bg-gray-100 "
-                  >
-                    1
-                  </button>
-                  <button
-                    type="button"
-                    className="w-full px-4 py-2 text-base text-gray-600 bg-white border hover:bg-gray-100"
-                  >
-                    2
-                  </button>
-                  <button
-                    type="button"
-                    className="w-full px-4 py-2 text-base text-gray-600 bg-white border-t border-b hover:bg-gray-100"
-                  >
-                    3
-                  </button>
-                  <button
-                    type="button"
-                    className="w-full px-4 py-2 text-base text-gray-600 bg-white border hover:bg-gray-100"
-                  >
-                    4
-                  </button>
-                  <button
-                    type="button"
-                    className="w-full p-4 text-base text-gray-600 bg-white border-t border-b border-r rounded-r-xl hover:bg-gray-100"
-                  >
-                    <svg
-                      width="9"
-                      fill="currentColor"
-                      height="8"
-                      className=""
-                      viewBox="0 0 1792 1792"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path d="M1363 877l-742 742q-19 19-45 19t-45-19l-166-166q-19-19-19-45t19-45l531-531-531-531q-19-19-19-45t19-45l166-166q19-19 45-19t45 19l742 742q19 19 19 45t-19 45z"></path>
-                    </svg>
-                  </button>
-                </div>
-              </div>
+              {!isPending && (
+                <Pagination
+                  onPageChange={(page) => setCurrentPage(page)}
+                  currentPage={currentPage}
+                  totalPageCount={postData?.headers?.["x-totalpagescount"]}
+                />
+              )}
             </div>
           </div>
         </div>
