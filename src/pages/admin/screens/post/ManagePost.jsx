@@ -147,11 +147,7 @@ export default function Post() {
                         Loading...
                       </td>
                     </tr>
-                  ) : isError || postData?.length == 0 ? (
-                    <td className="px-5 py-5 text-sm bg-white border-b border-gray-200 ">
-                      No Post Found.
-                    </td>
-                  ) : postData?.length == 0 ? (
+                  ) : postData?.data?.data?.length === 0 ? (
                     <td className="px-5 py-5 text-sm bg-white border-b border-gray-200 ">
                       No Post Found.
                     </td>
@@ -215,7 +211,7 @@ export default function Post() {
                             Delte
                           </button>
                           <Link
-                            href="/"
+                            to={`/admin/post/editPost/${post?.slug}`}
                             className="text-indigo-600 hover:text-indigo-900"
                           >
                             Edit
