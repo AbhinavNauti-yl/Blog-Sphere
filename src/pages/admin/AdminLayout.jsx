@@ -34,7 +34,7 @@ export default function AdminLayout() {
   }
 
   return (
-    <div className="flex flex-col h-screen lg:flex-row">
+    <div className="flex flex-col h-full min-h-screen lg:flex-row">
 
       <Header />
       <main className="bg-[#ebe7e7] flex-1  ">

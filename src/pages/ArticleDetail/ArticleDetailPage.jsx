@@ -96,7 +96,7 @@ export default function ArticleDetailPage() {
             <BreadCrumbs data={breadCrumbsData} />
 
             <img
-              src={data?.photo}
+              src={data?.photo || images.sampleImage}
               className="rounded-2xl p-2 object-cover"
               alt="image here"
             />
