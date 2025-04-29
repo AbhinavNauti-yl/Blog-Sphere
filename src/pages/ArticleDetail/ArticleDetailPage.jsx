@@ -18,6 +18,7 @@ import Paragraph from "@tiptap/extension-paragraph";
 import Text from "@tiptap/extension-text";
 import Italic from "@tiptap/extension-italic";
 import ErroMessage from "../../components/ErroMessage.jsx";
+import Editor from "../../components/editor/Editor.jsx";
 
 // const SuggestedPostData = [
 //   {
@@ -91,7 +92,7 @@ export default function ArticleDetailPage() {
       ) : isError ? (
         <ErroMessage message="Could not fetch this article" />
       ) : (
-        <section className="container mx-auto max-w-5xl flex flex-col px-5 py-5 lg:flex-row lg:gap-x-5 lg:items-start">
+        <section className="container  mx-auto max-w-5xl lg:max-w-full flex flex-col px-5 py-5 lg:flex-row lg:gap-x-10 lg:items-start lg:justify-end">
           <article className="flex-1 flex-col ">
             <BreadCrumbs data={breadCrumbsData} />
 
@@ -103,9 +104,9 @@ export default function ArticleDetailPage() {
 
             <h1 className="text-3xl">{data?.title}</h1>
 
-            {body}
+            <Editor content={data?.body} editable={false} className="text-3xl"/>
           </article>
-          <div className="mt-7">
+          <div className="mt-2">
             <SuggestedPost
               header={"Suggested Post"}
               post={SuggestedPostData}

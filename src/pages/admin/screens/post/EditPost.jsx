@@ -15,12 +15,14 @@ import { useState } from "react";
 import { htmlParse } from "../../../../utils/htmlParser.js";
 import images from "../../../../constants/images.js";
 import toast from "react-hot-toast";
+import Editor from "../../../../components/editor/Editor.jsx";
 
 const EditPost = () => {
   const { slug } = useParams();
 
   const [body, setBody] = useState(null);
   const [photo, setPhoto] = useState(null);
+  
   const queryClient = useQueryClient() 
 
   // for getting a particular post
@@ -29,14 +31,8 @@ const EditPost = () => {
     queryFn: () => {
       return getParticularPost({ slug });
     },
-    onSuccess: (response) => {
-      setBreadCrumbsData([
-        { name: "Home", link: "/" },
-        { name: "blog", link: "/blog" },
-        { name: "Article title", link: `/blog/${slug}` },
-      ]);
+    onSuccess: (data) => {
 
-      setBody(htmlParse(response?.body));
     },
   });
 
@@ -46,7 +42,7 @@ const EditPost = () => {
     if (photo) {
       updatedPost.append("photo", photo);
     }
-    updatedPost.append("document", JSON.stringify({}))
+    updatedPost.append("document", JSON.stringify({body}))
     
     mutateUpdatePost({slug, updatedPost})
 
@@ -98,7 +94,11 @@ const EditPost = () => {
 
             <h1 className="text-3xl">{data?.title}</h1>
 
-            <div className="mt-7">{body}</div>
+            <div className="mt-7">
+              <Editor content={data?.body} editable={true} onDataChange={(data) => {
+                setBody(data)
+              }}/>
+            </div>
             <button
               disabled= {isPostUpdatePending}
               className="bg-green-600 hover:bg-green-500 text-2xl text-white px-1 rounded-3xl py-0.5 w-full disabled:cursor-not-allowed disabled:opacity-50"
