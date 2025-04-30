@@ -51,4 +51,16 @@ const updatePost = async ({slug, updatedPost}) => {
   }
 }
 
-export { getAllPost, getParticularPost, deletePost, updatePost };
+const createPost = async () => {
+  try {
+    const response = await axios.post("/api/posts")
+    return response.data.data
+  } catch (error) {
+    if(error.response && error.response.data.message) {
+      throw new Error (error.response.data.message)
+    }
+    throw new Error (error.message)
+  }
+}
+
+export { getAllPost, getParticularPost, deletePost, updatePost, createPost };

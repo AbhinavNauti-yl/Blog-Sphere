@@ -26,18 +26,14 @@ export default function AdminLayout() {
     },
   });
 
-
-  if(isPending) {
-    return (
-      <div className="text-2xl ">loading</div>
-    )
+  if (isPending) {
+    return <div className="text-2xl ">loading</div>;
   }
 
   return (
-    <div className="flex flex-col h-full min-h-screen lg:flex-row">
-
-      <Header />
-      <main className="bg-[#ebe7e7] flex-1  ">
+    <div className="flex flex-col h-full min-h-screen lg:flex-row overflow-y-hidden">
+        <Header />
+      <main className="bg-[#ebe7e7] flex-1 overflow-y-auto ">
         <Outlet />
       </main>
     </div>

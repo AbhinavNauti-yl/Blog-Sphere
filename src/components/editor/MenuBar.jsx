@@ -12,10 +12,19 @@ import {
 import { BiParagraph } from "react-icons/bi";
 import { FiCode } from "react-icons/fi";
 import { MdOutlineLayersClear } from "react-icons/md";
-import { PiCodeBlock, PiQuotes } from "react-icons/pi";
+import { PiCodeBlock, PiQuotes, PiImageSquareBold } from "react-icons/pi";
 import { TbSpacingVertical } from "react-icons/tb";
+import { useCallback } from "react";
 
 const MenuBar = ({ editor }) => {
+  const addImage = useCallback(() => {
+    const url = window.prompt("URL");
+
+    if (url) {
+      editor.chain().focus().setImage({ src: url }).run();
+    }
+  }, [editor]);
+
   if (!editor) {
     return null;
   }
@@ -151,6 +160,16 @@ const MenuBar = ({ editor }) => {
       >
         <PiCodeBlock />
       </button>
+
+      <button
+        onClick={addImage}
+        className={`editor-btn ${
+          editor.isActive("codeBlock") && "active-editor-btn"
+        }`}
+      >
+        <PiImageSquareBold />
+      </button>
+
       <button
         onClick={() => editor.chain().focus().toggleBlockquote().run()}
         className={`editor-btn ${

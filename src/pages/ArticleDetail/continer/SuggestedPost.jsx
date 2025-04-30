@@ -10,7 +10,7 @@ export default function SuggestedPost({ header, post = [], tags = [] }) {
 
         <div className='grid  md:grid-cols-2 lg:grid-cols-1'>
             {
-                post?.data?.data.map( (item, index) => (
+                post?.data?.data.slice(0, 5).map( (item, index) => (
                     <Link to={`/blog/${item.slug}`} key={index} className='flex p-3 gap-3 '>
                         <img src={item.photo ? item.photo : item.photo == "" ? images.sampleImage : images.sampleImage} className='w-1/5 rounded-lg aspect-square' alt="image here" />
 
