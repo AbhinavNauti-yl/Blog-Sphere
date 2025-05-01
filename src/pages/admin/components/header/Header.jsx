@@ -59,7 +59,7 @@ export default function Header() {
         <h1 className="text-3xl text-black lg:hidden">BlogSphere</h1>
       </Link>
 
-      <div className="corsor-pointer lg:hidden">
+      <div className="corsor-pointer lg:hidden z-15">
         {isMenuActive ? (
           <MdOutlineCloseFullscreen
             onClick={toggleMenuHandler}
@@ -81,7 +81,7 @@ export default function Header() {
           />
 
           {/* underlay */}
-          <div className="fixed top-0 bottom-0 left-0 z-50 w-3/4 overflow-y-auto bg-white p-4 lg:static lg:h-full lg:w-300px lg:p-6">
+          <div className="fixed top-0 bottom-0 left-0 z-15 w-3/4 overflow-y-auto bg-white p-4 lg:static lg:h-full lg:w-300px lg:p-6">
             <Link to="/">
               <h1 className="text-3xl lg:">BlogSphere</h1>
             </Link>
