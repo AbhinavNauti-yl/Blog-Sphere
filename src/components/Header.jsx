@@ -124,7 +124,7 @@ function Header() {
               Profile
             </button>
 
-            {user?.userInfo?.admin && (
+            {user?.userInfo && (
               <button
                 onClick={() => toDashbord()}
                 className={` border-1 text-cyan-400 px-3 rounded-2xl hover:bg-blue-400 hover:text-white hover:transition-all duration-150 w-30`}

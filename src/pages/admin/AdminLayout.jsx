@@ -19,10 +19,14 @@ export default function AdminLayout() {
     queryKey: ["profile"],
     onSuccess: (response) => {
       console.log(response);
-      if (!response?.admin) {
-        navigate("/");
-        toast("Not an admin");
-      }
+      setTimeout(() => {
+        if (response?.admin) {
+          return;
+        } else {
+          navigate("/");
+          toast("Not an admin");
+        }
+      }, 1000);
     },
   });
 

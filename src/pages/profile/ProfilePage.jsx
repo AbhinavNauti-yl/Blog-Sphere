@@ -13,6 +13,8 @@ export default function ProfilePage() {
   const user = useSelector(state => state.userSlice)
   const navigate = useNavigate()
 
+  const [avatar, setAvatar] = React.useState(null)
+
   useEffect(() => {
     if(!user.userInfo) {
       navigate("/")
@@ -70,7 +72,7 @@ export default function ProfilePage() {
     <MainLayout>
       <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100 p-4">
 
-        <ProgfileAvata avatar={profileData?.avatar}/>
+        <ProgfileAvata profileData={profileData}/>
 
         <form onSubmit={handleSubmit(submitHandler)} className="bg-white p-6 rounded-lg shadow-lg w-full max-w-md">
           <h2 className="text-2xl font-bold text-center mb-6">Profile</h2>

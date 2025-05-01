@@ -1,24 +1,23 @@
-import React from "react";
-import MainLayout from "../../../../components/MainLayout";
+import React, { useEffect } from "react";
 import ArticleDetailSkeleton from "../../../ArticleDetail/component/ArticleDetailSkeleton.jsx";
 
 import { useParams } from "react-router-dom";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import {
-  getAllPost,
   getParticularPost,
   updatePost,
 } from "../../../../services/index/post.js";
 import ErroMessage from "../../../../components/ErroMessage.jsx";
 import { useState } from "react";
-
-import { htmlParse } from "../../../../utils/htmlParser.js";
 import images from "../../../../constants/images.js";
 import toast from "react-hot-toast";
 import Editor from "../../../../components/editor/Editor.jsx";
 import MultiSelectDropDown from "../../components/selectDropDown/MultiSelectDropDown.jsx";
 import { getAllPostCategories } from "../../../../services/index/postCategories.js";
-import { categoryToOptions, filterCategories } from "../../../../utils/multiSelect.js";
+import {
+  categoryToOptions,
+  filterCategories,
+} from "../../../../utils/multiSelect.js";
 
 const promisOption = async (inputValue) => {
   const categories = await getAllPostCategories();
@@ -27,32 +26,37 @@ const promisOption = async (inputValue) => {
 
 const EditPost = () => {
   const { slug } = useParams();
+  const queryClient = useQueryClient();
 
   const [body, setBody] = useState(null);
   const [photo, setPhoto] = useState(null);
   const [categories, setCategories] = useState([]);
-
-  const queryClient = useQueryClient();
+  const [title, setTitle] = useState("");
+  const [caption, setCaption] = useState("");
 
   // for getting a particular post
   const { data, isError, isPending } = useQuery({
     queryKey: ["newPost", slug],
     queryFn: () => {
       return getParticularPost({ slug });
-    },
-    onSuccess: (data) => {
-      setCategories(data.categories.map((item) => item._id));
-    },
+    }
   });
+  
+  useEffect(() => {
+    setCategories(data?.categories.map((item) => item._id));
+    setCaption(data?.caption);
+    setTitle(data?.title);
+  },[data])
 
   const handelUpdatePost = () => {
     const updatedPost = new FormData();
-
     if (photo) {
       updatedPost.append("photo", photo);
     }
-    updatedPost.append("document", JSON.stringify({ body, categories }));
-
+    updatedPost.append(
+      "document",
+      JSON.stringify({ body, categories, caption, title })
+    );
     mutateUpdatePost({ slug, updatedPost });
   };
 
@@ -100,9 +104,34 @@ const EditPost = () => {
               onChange={handelPosPhooChange}
             />
 
-            <h1 className="text-3xl">{data?.title}</h1>
+            {/* title */}
+            <div className="mt-3 flex flex-col">
+              <label htmlFor="title">Title</label>
+              <input
+                type="text"
+                id="title"
+                value={title || ""}
+                onChange={(e) => setTitle(e.target.value)}
+                className="text-3xl border border-slate-300  bg-white rounded-lg p-2 outline-none"
+                placeholder="Title of the post"
+              />
+            </div>
+
+            {/* caption */ }
+            <div className="mt-3 flex flex-col">
+              <label htmlFor="caption">Caption</label>
+              <input
+                type="text"
+                id="caption"
+                value={caption || ""}
+                onChange={(e) => setCaption(e.target.value)}
+                className="text-3xl border border-slate-300  bg-white rounded-lg p-2 outline-none"
+                placeholder="Caption of the Post"
+              />
+            </div>
 
             <div className="mt-3 z-12">
+            <label>Category</label>
               <MultiSelectDropDown
                 loadOptions={promisOption}
                 defaultValue={data.categories.map(categoryToOptions)}

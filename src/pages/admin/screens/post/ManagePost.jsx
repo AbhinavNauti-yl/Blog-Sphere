@@ -28,9 +28,7 @@ export default function Post() {
       return getAllPost(search, currentPage);
     },
     queryKey: ["posts", currentPage],
-    onSuccess: (postData) => {
-      console.log(postData);
-    },
+    onSuccess: (postData) => {},
     onError: (error) => {
       {
         toast(error.message);
@@ -174,8 +172,15 @@ export default function Post() {
                         </td>
                         <td className="px-5 py-5 text-sm bg-white border-b border-gray-200">
                           <p className="text-gray-900 whitespace-no-wrap">
-                            {post?.catogery?.length > 0
-                              ? post.catogery[0]
+                            {post?.categories?.length > 0
+                              ? post.categories.slice(0, 3).map((category) => (
+                                  <span
+                                    key={category._id}
+                                    className="inline-block text-bold"
+                                  >
+                                    {" "} {category.title.toUpperCase()} | {" "}
+                                  </span>
+                                ))
                               : "Uncategorised"}
                           </p>
                         </td>

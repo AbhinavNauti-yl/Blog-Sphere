@@ -102,3 +102,19 @@ export const deleteProfileAvatar = async () => {
     throw new Error(error.message)
   }
 }
+
+export const updateProfileAvatar = async ({formData}) => {
+  try {
+    const response = await axios.post("api/users/updateProfileAvatar", formData, {
+      Credential: true,
+    })
+    
+    return response
+  } catch (error) {
+    if(error.response && error.response.data.message) {
+      throw new Error(error.response.data.message)
+    }
+
+    throw new Error(error.message)
+  }
+}
