@@ -9,7 +9,7 @@ import {toast} from 'react-hot-toast'
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 import { AiFillDashboard } from "react-icons/ai";
-import { FaRegCommentDots } from "react-icons/fa";
+import { MdOutlineCategory } from "react-icons/md";
 import { MdDashboard } from "react-icons/md";
 import { IoIosCreate } from "react-icons/io";
 import { createPost } from "../../../../services/index/post";
@@ -35,7 +35,6 @@ export default function Header() {
   }, [windowSize.width]);
 
   const handelCreateNewPost = () => {
-    console.log("hello");
 
     mutateCreatePost();
   };
@@ -99,10 +98,10 @@ export default function Header() {
               />
 
               <NavItem
-                title="Comments"
-                link="/admin/comment"
-                icon={<FaRegCommentDots className="text-xl" />}
-                name="comment"
+                title="Categories"
+                link="/admin/categories"
+                icon={<MdOutlineCategory className="text-xl" />}
+                name="categories"
                 activeNavName={activeNavName}
                 setActiveNavName={setActiveNavName}
               />

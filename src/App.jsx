@@ -12,6 +12,8 @@ import Admin from "./pages/admin/screens/Admin";
 import Comment from "./pages/admin/screens/Comment";
 import ManagePost from "./pages/admin/screens/post/ManagePost";
 import EditPost from "./pages/admin/screens/post/EditPost";
+import Categories from "./pages/admin/screens/categories/Categories";
+import EditCategories from "./pages/admin/screens/categories/EditCategories";
 
 function App() {
   return (
@@ -25,6 +27,8 @@ function App() {
         <Route path="/admin" element={<AdminLayout />}>
           <Route index element={<Admin />} />
           <Route path="comment" element={<Comment />} />
+          <Route path="categories" element={<Categories />} />
+          <Route path="categories/editCategory/:id" element={<EditCategories />} />
           <Route path="post" element={<ManagePost />} />
           <Route path="post/editPost/:slug" element={<EditPost />} />
         </Route>

@@ -115,15 +115,6 @@ function Header() {
               Log In
             </button>
 
-            <button
-              onClick={() => profile()}
-              className={`${
-                !user.userInfo ? "hidden disabled" : "block"
-              }  border-1 text-cyan-400 px-3 rounded-2xl hover:bg-blue-400 hover:text-white hover:transition-all duration-150 w-30`}
-            >
-              Profile
-            </button>
-
             {user?.userInfo && (
               <button
                 onClick={() => toDashbord()}

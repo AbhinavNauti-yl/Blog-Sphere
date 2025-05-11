@@ -1,14 +1,40 @@
+import { QueryClient, useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import React, { useEffect, useState } from "react";
-import { useMutation, useQuery } from "@tanstack/react-query";
-import { deletePost, getAllPost } from "../../../../services/index/post";
-import images from "../../../../constants/images";
+import { createPostCategory, deletedPostCategory, getAllPostCategories } from "../../../../services/index/postCategories";
+import { Link, useNavigate } from "react-router-dom";
 import Pagination from "../../../../components/Pagination";
 import toast from "react-hot-toast";
-import { Link, useNavigate } from "react-router-dom";
 
 let isFirstTime = true;
 
-export default function Post() {
+
+export default function Categories() {
+  const queryClient = useQueryClient()
+  const [newCategory, setNewCategory] = useState("");
+  const createCategory = () => {
+    const category = newCategory
+    mutate(category)
+  };
+  const { mutate, isPending, isError } = useMutation({
+    mutationFn: (category) => {
+      return createPostCategory(category)
+    },
+    onSuccess: (data) => {
+      queryClient.invalidateQueries(["postCategory"])
+    },
+    onError: (error) => {
+      console.log(error.message)
+    }
+  });
+
+
+
+
+
+
+
+
+
   const [search, setSearch] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
 
@@ -19,16 +45,16 @@ export default function Post() {
   };
 
   const {
-    data: postData,
-    isError,
-    isPending,
+    data: postCategoryData,
+    isError: postCategoryDataError,
+    isPending: postCategoryDataPending,
     refetch,
   } = useQuery({
     queryFn: () => {
-      return getAllPost(search, currentPage);
+      return getAllPostCategories(search, currentPage);
     },
-    queryKey: ["posts", currentPage],
-    onSuccess: (postData) => {},
+    queryKey: ["postCategory", currentPage],
+    onSuccess: (postCategoryData) => {},
     onError: (error) => {
       {
         toast(error.message);
@@ -36,15 +62,16 @@ export default function Post() {
     },
   });
 
-  const { mutate: mutatePostDelete, isPending: isDeletePending } = useMutation({
-    mutationFn: ({ slug }) => {
-      return deletePost({ slug });
+  const { mutate: mutatePostCategoryDelete, isPending: isDeletePending } = useMutation({
+    mutationFn: ({ _id }) => {
+      return deletedPostCategory({ _id });
     },
     onSuccess: (response) => {
-      if (response) {
-        toast.success("Post deleted");
+      console.log(response?.data?.acknowledged)
+      if (response?.data?.acknowledged) {
+        toast.success("Post Category deleted");
         refetch();
-        navigate("/admin/post");
+        navigate("/admin/categories");
       }
     },
     onError: (response) => {
@@ -67,18 +94,39 @@ export default function Post() {
     setCurrentPage(1);
   };
 
-  const handelDelete = ({ slug }) => {
-    mutatePostDelete({ slug });
+  const handelDelete = ({ _id }) => {
+    mutatePostCategoryDelete({ _id });
   };
 
   return (
-    <div className="z-0">
-      <h1 className="text-3xl p-5">Manage Posts</h1>
+
+    <>
+    
+      <h1 className="text-3xl text-black m-5">Manage Categories</h1>
+    <div className="flex flex-col p-5 gap-10 items-center">
+      <div className="flex flex-col mt-5 w-[calc(50%)] items-start lg:w-[calc(30%)]">
+        <input
+          type="text"
+          onChange={(e) => {
+            setNewCategory(e.target.value)
+          }}
+          placeholder="New Category"
+          value={newCategory}
+          className=" border border-slate-300  bg-white rounded-lg p-2 outline-none w-full "
+        />
+        <button
+          disabled={isPending}
+          className="bg-green-600 hover:bg-green-500  text-white px-1 rounded-3xl py-0.5 disabled:cursor-not-allowed disabled:opacity-50 mt-7  w-full"
+          onClick={() => createCategory()}
+        >
+          Create
+        </button>
+      </div>
 
       <div className="w-[calc(98%)] px-5 mx-auto ">
         <div className="py-8">
           <div className="flex flex-row justify-between w-full mb-1 sm:mb-0">
-            <h2 className="text-2xl leading-tight">Posts</h2>
+            <h2 className="text-2xl leading-tight">Categories</h2>
             <div className="text-end">
               <form
                 onSubmit={makeSearchUsingSearchKeyword}
@@ -89,7 +137,7 @@ export default function Post() {
                     type="text"
                     id='"form-subscribe-Filter'
                     className=" rounded-lg  flex-1 appearance-none border border-gray-300 w-full py-2 px-4 bg-white text-gray-700 placeholder-gray-400 shadow-sm text-base focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent"
-                    placeholder="Post Title..."
+                    placeholder="Category Title..."
                     onChange={changeSearchKeyword}
                     value={search}
                   />
@@ -118,19 +166,7 @@ export default function Post() {
                       scope="col"
                       className="px-5 py-3 text-sm font-normal text-left text-gray-800 uppercase bg-white border-b border-gray-200"
                     >
-                      Category
-                    </th>
-                    <th
-                      scope="col"
-                      className="px-5 py-3 text-sm font-normal text-left text-gray-800 uppercase bg-white border-b border-gray-200"
-                    >
                       Created at
-                    </th>
-                    <th
-                      scope="col"
-                      className="px-5 py-3 text-sm font-normal text-left text-gray-800 uppercase bg-white border-b border-gray-200"
-                    >
-                      Tags
                     </th>
                     <th
                       scope="col"
@@ -145,78 +181,40 @@ export default function Post() {
                         Loading...
                       </td>
                     </tr>
-                  ) : postData?.data?.data?.length === 0 ? (
+                  ) : postCategoryData?.data?.data?.length === 0 ? (
                     <td className="px-5 py-5 text-sm bg-white border-b border-gray-200 ">
-                      No Post Found.
+                      No Category Found.
                     </td>
                   ) : (
-                    postData?.data?.data.map((post, index) => (
+                    postCategoryData?.data?.data.map((category, index) => (
                       <tr key={index}>
                         <td className="px-5 py-5 text-sm bg-white border-b border-gray-200">
                           <div className="flex items-center">
-                            <div className="flex-shrink-0">
-                              <a href="/" className=" block">
-                                <img
-                                  alt="profil"
-                                  src={post?.photo || images.sampleImage}
-                                  className="mx-auto object-cover rounded-lg h-10 w-10 "
-                                />
-                              </a>
-                            </div>
                             <div className="ml-3">
                               <p className="text-gray-900 whitespace-no-wrap">
-                                {post?.title}
+                                {category?.title}
                               </p>
                             </div>
                           </div>
                         </td>
                         <td className="px-5 py-5 text-sm bg-white border-b border-gray-200">
                           <p className="text-gray-900 whitespace-no-wrap">
-                            {post?.categories?.length > 0
-                              ? post.categories.slice(0, 3).map((category) => (
-                                  <span
-                                    key={category._id}
-                                    className="inline-block text-bold"
-                                  >
-                                    {" "} {category.title.toUpperCase()} | {" "}
-                                  </span>
-                                ))
-                              : "Uncategorised"}
-                          </p>
-                        </td>
-                        <td className="px-5 py-5 text-sm bg-white border-b border-gray-200">
-                          <p className="text-gray-900 whitespace-no-wrap">
-                            {new Date(post.createdAt).toLocaleString("en-In", {
+                            {new Date(category.createdAt).toLocaleString("en-In", {
                               day: "numeric",
                               month: "short",
                               year: "numeric",
                             })}
                           </p>
                         </td>
-                        <td className="px-5 py-5 text-sm bg-white border-b border-gray-200">
-                          <span className=" px-3 py-1 font-semibold leading-tight text-green-900">
-                            {post?.tags.length > 0 ? (
-                              post?.tags?.map((tag, index) => (
-                                <span key={index} className="inlin-block">
-                                  {tag.toUpperCase()} |{" "}
-                                </span>
-                              ))
-                            ) : (
-                              <span key={index} className="inline-block">
-                                NO TAGS
-                              </span>
-                            )}
-                          </span>
-                        </td>
                         <td className="px-5 py-5 text-md bg-white border-b border-gray-200 flex-row space-x-2 ">
                           <button
-                            onClick={() => handelDelete({ slug: post?.slug })}
+                            onClick={() => handelDelete({ _id: category?._id })}
                             className="text-red-600 hover:text-red-800 cursor-pointer"
                           >
                             Delete
                           </button>
                           <Link
-                            to={`/admin/post/editPost/${post?.slug}`}
+                            to={`/admin/categories/editCategory/${category?._id}`}
                             className="text-indigo-600 hover:text-indigo-900"
                           >
                             Edit
@@ -228,11 +226,11 @@ export default function Post() {
                 </tbody>
               </table>
 
-              {!isPending && (
+              {!postCategoryDataPending && (
                 <Pagination
                   onPageChange={(page) => setCurrentPage(page)}
                   currentPage={currentPage}
-                  totalPageCount={postData?.headers?.["x-totalpagescount"]}
+                  totalPageCount={postCategoryData?.headers?.["x-totalpagescount"]}
                 />
               )}
             </div>
@@ -240,5 +238,7 @@ export default function Post() {
         </div>
       </div>
     </div>
+    </>
+
   );
 }

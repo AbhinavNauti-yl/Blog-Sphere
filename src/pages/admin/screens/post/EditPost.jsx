@@ -20,8 +20,8 @@ import {
 } from "../../../../utils/multiSelect.js";
 
 const promisOption = async (inputValue) => {
-  const categories = await getAllPostCategories();
-  return filterCategories(inputValue, categories);
+  const {data} = await getAllPostCategories();
+  return filterCategories(inputValue, data.data);
 };
 
 const EditPost = () => {
@@ -41,6 +41,7 @@ const EditPost = () => {
       return getParticularPost({ slug });
     }
   });
+
   
   useEffect(() => {
     setCategories(data?.categories.map((item) => item._id));

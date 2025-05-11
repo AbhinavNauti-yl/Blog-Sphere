@@ -28,9 +28,9 @@ export default function Admin() {
       <div className="bg-white shadow-xl rounded-lg p-6 max-w-3xl w-full flex flex-col md:flex-row gap-8">
         {/* Profile Image */}
         <div className="flex justify-center md:justify-start">
-          {userData.image ? (
+          {userData?.avatar ? (
             <img
-              src={userData?.image}
+              src={userData?.avatar}
               alt="Profile"
               className="w-32 h-32 rounded-full border-4 border-blue-500"
             />
