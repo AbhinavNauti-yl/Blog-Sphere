@@ -17,7 +17,6 @@ export const signup = async ({name, email, password}) => {
   }
 };
 
-
 export const login = async ({email, password}) => {
   try {
     const response = await axios.post("api/users/login", 
@@ -36,7 +35,6 @@ export const login = async ({email, password}) => {
     throw new Error(error.message)
   }
 }
-
 
 export const logout = async () => {
   try {
@@ -109,6 +107,20 @@ export const updateProfileAvatar = async ({formData}) => {
       Credential: true,
     })
     
+    return response
+  } catch (error) {
+    if(error.response && error.response.data.message) {
+      throw new Error(error.response.data.message)
+    }
+
+    throw new Error(error.message)
+  }
+}
+
+export const getAllUsers = async () => {
+  try {
+    // http://localhost:5173/api/users/getAllUsers
+    const response = await axios.get('/api/users/getAllUsers')
     return response
   } catch (error) {
     if(error.response && error.response.data.message) {

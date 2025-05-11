@@ -13,6 +13,7 @@ import { MdOutlineCategory } from "react-icons/md";
 import { MdDashboard } from "react-icons/md";
 import { IoIosCreate } from "react-icons/io";
 import { createPost } from "../../../../services/index/post";
+import { FaRegUser } from "react-icons/fa";
 
 export default function Header() {
   const [isMenuActive, setIsmenuActive] = useState(false);
@@ -93,6 +94,15 @@ export default function Header() {
                 link="/admin"
                 icon={<AiFillDashboard className="text-xl" />}
                 name="dashboard"
+                activeNavName={activeNavName}
+                setActiveNavName={setActiveNavName}
+              />
+
+              <NavItem
+                title="Users"
+                link="/admin/users"
+                icon={<FaRegUser className="text-xl" />}
+                name="users"
                 activeNavName={activeNavName}
                 setActiveNavName={setActiveNavName}
               />
