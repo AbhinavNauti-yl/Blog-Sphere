@@ -14,7 +14,7 @@ const navItemInfo = [
   { name: "Home", to: "/" },
   { name: "Blog", to: "/blog" },
   { name: "Pages", to: "/" },
-  { name: "Pricing", to: "/" },
+  { name: "Pricing", to: "/pricing" },
   { name: "Faq", to: "/" },
 ];
 

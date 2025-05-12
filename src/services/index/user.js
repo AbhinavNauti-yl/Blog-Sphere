@@ -143,3 +143,16 @@ export const deleteUsers = async ({id}) => {
     throw new Error(error.message)
   }
 }
+
+export const setVarifiedUsers = async () => {
+  try {
+    const response = await axios.put(`/api/users/setVarifiedUser`)
+    return response.data.data
+  } catch (error) {
+    if(error.response && error.response.data.message) {
+      throw new Error(error.response.data.message)
+    }
+
+    throw new Error(error.message)
+  }
+}

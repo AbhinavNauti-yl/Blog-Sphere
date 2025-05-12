@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { CgMenuRightAlt } from "react-icons/cg";
 import { MdOutlineCloseFullscreen } from "react-icons/md";
-import {  Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import NavItem from "./NavItem";
 import { useWindowSize } from "@uidotdev/usehooks";
-import {toast} from 'react-hot-toast'
+import { toast } from "react-hot-toast";
 
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
@@ -14,13 +14,15 @@ import { MdDashboard } from "react-icons/md";
 import { IoIosCreate } from "react-icons/io";
 import { createPost } from "../../../../services/index/post";
 import { FaRegUser } from "react-icons/fa";
+import { useSelector } from "react-redux";
 
 export default function Header() {
   const [isMenuActive, setIsmenuActive] = useState(false);
   const [activeNavName, setActiveNavName] = useState("dashboard");
+  const user = useSelector((state) => state.userSlice);
 
-  const queryClient = useQueryClient()
-  const navigate = useNavigate()
+  const queryClient = useQueryClient();
+  const navigate = useNavigate();
   const windowSize = useWindowSize();
 
   const toggleMenuHandler = () => {
@@ -36,7 +38,6 @@ export default function Header() {
   }, [windowSize.width]);
 
   const handelCreateNewPost = () => {
-
     mutateCreatePost();
   };
 
@@ -45,11 +46,11 @@ export default function Header() {
       return createPost();
     },
     onSuccess: (data) => {
-      queryClient.invalidateQueries(["post"])
-      navigate(`/admin/post/editPost/${data.slug}`)
+      queryClient.invalidateQueries(["post"]);
+      navigate(`/admin/post/editPost/${data.slug}`);
     },
     onError: (error) => {
-      toast.error(error.message)
+      toast.error(error.message);
     },
   });
 
@@ -98,43 +99,51 @@ export default function Header() {
                 setActiveNavName={setActiveNavName}
               />
 
-              <NavItem
-                title="Users"
-                link="/admin/users"
-                icon={<FaRegUser className="text-xl" />}
-                name="users"
-                activeNavName={activeNavName}
-                setActiveNavName={setActiveNavName}
-              />
-
-              <NavItem
-                title="Categories"
-                link="/admin/categories"
-                icon={<MdOutlineCategory className="text-xl" />}
-                name="categories"
-                activeNavName={activeNavName}
-                setActiveNavName={setActiveNavName}
-              />
-
-              <NavItem
-                title="Posts"
-                link="/admin/post"
-                icon={<MdDashboard className="text-xl" />}
-                name="post"
-                activeNavName={activeNavName}
-                setActiveNavName={setActiveNavName}
-              />
-
-              <div onClick={() => handelCreateNewPost()}>
+              {user?.userInfo.admin && (
                 <NavItem
-                  title="New Post"
-                  link="/admin/post"
-                  icon={<IoIosCreate className="text-xl" />}
-                  name="new Post"
+                  title="Users"
+                  link="/admin/users"
+                  icon={<FaRegUser className="text-xl" />}
+                  name="users"
                   activeNavName={activeNavName}
                   setActiveNavName={setActiveNavName}
                 />
-              </div>
+              )}
+
+              {user?.userInfo.admin && (
+                <NavItem
+                  title="Categories"
+                  link="/admin/categories"
+                  icon={<MdOutlineCategory className="text-xl" />}
+                  name="categories"
+                  activeNavName={activeNavName}
+                  setActiveNavName={setActiveNavName}
+                />
+              )}
+
+              {user?.userInfo.admin && (
+                <NavItem
+                  title="Posts"
+                  link="/admin/post"
+                  icon={<MdDashboard className="text-xl" />}
+                  name="post"
+                  activeNavName={activeNavName}
+                  setActiveNavName={setActiveNavName}
+                />
+              )}
+
+              {(user?.userInfo.admin || user?.userInfo.varified) && (
+                <div onClick={() => handelCreateNewPost()}>
+                  <NavItem
+                    title="New Post"
+                    link="/admin/post"
+                    icon={<IoIosCreate className="text-xl" />}
+                    name="new Post"
+                    activeNavName={activeNavName}
+                    setActiveNavName={setActiveNavName}
+                  />
+                </div>
+              )}
             </div>
           </div>
         </div>
