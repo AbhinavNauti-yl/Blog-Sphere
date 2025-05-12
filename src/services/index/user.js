@@ -117,11 +117,24 @@ export const updateProfileAvatar = async ({formData}) => {
   }
 }
 
-export const getAllUsers = async () => {
+export const getAllUsers = async (search = "", page = 1, limit = 10) => {
   try {
     // http://localhost:5173/api/users/getAllUsers
-    const response = await axios.get('/api/users/getAllUsers')
+    const response = await axios.get(`/api/users/getAllUsers?search=${search}&page=${page}&pageSize=${limit}`)
     return response
+  } catch (error) {
+    if(error.response && error.response.data.message) {
+      throw new Error(error.response.data.message)
+    }
+
+    throw new Error(error.message)
+  }
+}
+
+export const deleteUsers = async ({id}) => {
+  try {
+    const response = await axios.delete(`/api/users/deleteUsers/${id}`)
+    return response.data.data
   } catch (error) {
     if(error.response && error.response.data.message) {
       throw new Error(error.response.data.message)

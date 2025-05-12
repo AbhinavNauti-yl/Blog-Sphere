@@ -1,8 +1,10 @@
 import { useMutation, useQuery } from "@tanstack/react-query";
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { getAllUsers } from "../../../../services/index/user";
+import { deleteUsers, getAllUsers } from "../../../../services/index/user";
 import { FaRegUserCircle } from "react-icons/fa";
+import Pagination from "../../../../components/Pagination";
+import toast from "react-hot-toast";
 
 let isFirstTime = true;
 
@@ -23,9 +25,9 @@ export default function Users() {
     refetch,
   } = useQuery({
     queryFn: () => {
-      return getAllUsers();
+      return getAllUsers(search, currentPage);
     },
-    queryKey: ["allUsers"],
+    queryKey: ["allUsers", currentPage],
     onSuccess: (usersData) => {},
     onError: (error) => {
       {
@@ -34,21 +36,19 @@ export default function Users() {
     },
   });
 
-  // const { mutate: mutatePostDelete, isPending: isDeletePending } = useMutation({
-  //   mutationFn: ({ slug }) => {
-  //     return deletePost({ slug });
-  //   },
-  //   onSuccess: (response) => {
-  //     if (response) {
-  //       toast.success("Post deleted");
-  //       refetch();
-  //       navigate("/admin/post");
-  //     }
-  //   },
-  //   onError: (response) => {
-  //     toast.error(response.message);
-  //   },
-  // });
+  const { mutate: mutateUserDelete, isPending: isDeletePending } = useMutation({
+    mutationFn: ({ id }) => {
+      return deleteUsers({ id });
+    },
+    onSuccess: (response) => {
+      toast.success("User deleted");
+      refetch();
+      navigate("/admin/users");
+    },
+    onError: (response) => {
+      toast.error(response.message);
+    },
+  });
 
   useEffect(() => {
     if (isFirstTime) {
@@ -65,8 +65,10 @@ export default function Users() {
     setCurrentPage(1);
   };
 
-  const handelDelete = ({ slug }) => {
-    mutatePostDelete({ slug });
+  const handelUserDelete = ({ id }) => {
+    if (window.confirm("Do you want to delete this user")) {
+      mutateUserDelete({ id });
+    }
   };
 
   return (
@@ -76,7 +78,7 @@ export default function Users() {
       <div className="w-[calc(98%)] px-5 mx-auto ">
         <div className="py-8">
           <div className="flex flex-row justify-between w-full mb-1 sm:mb-0">
-            <h2 className="text-2xl leading-tight">Posts</h2>
+            <h2 className="text-2xl leading-tight">Users</h2>
             <div className="text-end">
               <form
                 onSubmit={makeSearchUsingSearchKeyword}
@@ -217,17 +219,17 @@ export default function Users() {
                         </td>
                         <td className="px-5 py-5 text-md bg-white border-b border-gray-200 flex-row space-x-2 ">
                           <button
-                            // onClick={() => handelDelete({ slug: post?.slug })}
+                            onClick={() => handelUserDelete({ id: User?._id })}
                             className="text-red-600 hover:text-red-800 cursor-pointer"
                           >
                             Delete
                           </button>
-                          <Link
+                          {/* <Link
                             // to={`/admin/post/editPost/${post?.slug}`}
                             className="text-indigo-600 hover:text-indigo-900"
                           >
                             Edit
-                          </Link>
+                          </Link> */}
                         </td>
                       </tr>
                     ))
@@ -235,13 +237,13 @@ export default function Users() {
                 </tbody>
               </table>
 
-              {/* {!isPending && (
+              {!isPending && (
                 <Pagination
                   onPageChange={(page) => setCurrentPage(page)}
                   currentPage={currentPage}
-                  totalPageCount={postData?.headers?.["x-totalpagescount"]}
+                  totalPageCount={usersData?.headers?.["x-totalpagescount"]}
                 />
-              )} */}
+              )}
             </div>
           </div>
         </div>

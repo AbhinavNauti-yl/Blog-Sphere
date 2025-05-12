@@ -3,30 +3,19 @@ import React, { useEffect, useState } from "react";
 import { CgMenuRightAlt } from "react-icons/cg";
 import { MdOutlineCloseFullscreen } from "react-icons/md";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { logout } from "../services/index/user";
 import toast from "react-hot-toast";
 import { resetUserInfo } from "../store/slices/user.slice";
 
-const NavItem = ({ name }) => {
-  return (
-    <li className="group">
-      <a href="/" className="text-white">
-        {name}
-      </a>
-      <span className="text-blue-500 opacity-0 transition-all duration-500 right-0 top-0 relative group-hover:text-black group-hover:opacity-100 group-hover:right-[100%]">
-        |
-      </span>
-    </li>
-  );
-};
+
 
 const navItemInfo = [
-  { name: "Home" },
-  { name: "Article" },
-  { name: "Pages" },
-  { name: "Pricing" },
-  { name: "Faq" },
+  { name: "Home", to: "/" },
+  { name: "Blog", to: "/blog" },
+  { name: "Pages", to: "/" },
+  { name: "Pricing", to: "/" },
+  { name: "Faq", to: "/" },
 ];
 
 function Header() {
@@ -52,9 +41,6 @@ function Header() {
     navigate('/admin')
   }
 
-  const profile = () => {
-    navigate("/profile");
-  };
 
   const dispatch = useDispatch();
   const logoutUser = () => {
@@ -66,9 +52,9 @@ function Header() {
     <div className="sticky left-0 right-0 top-0 z-51 bg-[#023047]">
       <section>
         <header className="container mx-auto px-5 flex justify-between py-4">
-          <div>
+          <Link to="/">
             <h1 className="text-3xl text-white">BlogSphere</h1>
-          </div>
+          </Link>
 
           <div className="lg:hidden z-50">
             {isNavVisible ? (
@@ -90,8 +76,15 @@ function Header() {
             } flex flex-col lg:flex-row justify-center lg:justify-end fixed w-full lg:w-auto  top-0 bottom-0 gap-5 z-49 lg:static text-2xl items-center transition-all duration-200 g-5 bg-[#023047]`}
           >
             <ul className="flex flex-col lg:flex-row gap-10 items-center">
-              {navItemInfo.map((items) => (
-                <NavItem key={items.name} name={items.name} />
+              {navItemInfo.map((items, index) => (
+                <li className="group" key={index}>
+                  <Link to={items?.to} className="text-white">
+                    {items.name}
+                  </Link>
+                  <span className="text-blue-500 opacity-0 transition-all duration-500 right-0 top-0 relative group-hover:text-black group-hover:opacity-100 group-hover:right-[100%]">
+                    |
+                  </span>
+                </li>
               ))}
             </ul>
 
