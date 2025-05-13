@@ -48,6 +48,7 @@ export default function BlogPage() {
   };
 
   useEffect(() => {
+    window.scroll(0,0)
     if (isFirstTime) {
       isFirstTime = false;
       return;
