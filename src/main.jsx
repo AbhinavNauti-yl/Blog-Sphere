@@ -9,7 +9,7 @@ import store from "./store/store";
 import { Provider } from "react-redux";
 
 import { QueryClientProvider, QueryClient } from "@tanstack/react-query";
-// axios.defaults.baseURL = "http://localhost:80"
+axios.defaults.baseURL = process.env.BASE_URL
 const queryClient = new QueryClient();
 
 createRoot(document.getElementById("root")).render(
