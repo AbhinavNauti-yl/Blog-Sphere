@@ -8,15 +8,13 @@ export default function Pagination({
   siblingCount = 1,
   totalPageCount,
 }) {
-  console.log(totalPageCount)
   const paginationRange = usePagination({
     siblingCount,
     currentPage,
     totalPageCount,
   });
-  console.log(paginationRange)
 
-  if (currentPage === 0 || paginationRange?.length < 2) {
+  if (currentPage === 0 || paginationRange.length < 2) {
     return null;
   }
 
