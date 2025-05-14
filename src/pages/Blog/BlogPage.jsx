@@ -40,7 +40,7 @@ export default function BlogPage() {
     },
   });
 
-  console.log(data.headers?.["x-totalpagescount"])
+  console.log(data)
 
   const handleSubmit = (e) => {
     e.preventDefault();
