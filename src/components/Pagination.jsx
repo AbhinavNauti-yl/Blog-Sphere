@@ -8,11 +8,13 @@ export default function Pagination({
   siblingCount = 1,
   totalPageCount,
 }) {
+  console.log(totalPageCount)
   const paginationRange = usePagination({
-    currentPage,
     siblingCount,
+    currentPage,
     totalPageCount,
   });
+  console.log(paginationRange)
 
   if (currentPage === 0 || paginationRange?.length < 2) {
     return null;
@@ -25,7 +27,7 @@ export default function Pagination({
     onPageChange(currentPage - 1);
   };
 
-  let lastPage = paginationRange[paginationRange?.length - 1];
+  let lastPage = paginationRange[paginationRange.length - 1];
 
   return (
     <div className="flex flex-col items-center px-5 py-5 bg-white xs:flex-row xs:justify-between">
