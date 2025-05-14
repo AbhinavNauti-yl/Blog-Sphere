@@ -6,7 +6,8 @@ import RegisterPage from "./pages/register/RegisterPage";
 
 import { Toaster } from "react-hot-toast";
 import LoginPage from "./pages/login/LoginPage";
-import ProfilePage from "./pages/profile/profilePage";
+import ProfilePage from './pages/profile/ProfilePage'
+// import ProfilePage from "./pages/profile/profilePage";
 import AdminLayout from "./pages/admin/AdminLayout";
 import Admin from "./pages/admin/screens/Admin";
 import ManagePost from "./pages/admin/screens/post/ManagePost";
