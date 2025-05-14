@@ -109,7 +109,7 @@ export default function BlogPage() {
           <Pagination
             onPageChange={(page) => handelqueryStringChange(page)}
             currentPage={currentPage}
-            totalPageCount={data?.headers?.["x-totalpagescount"]}
+            totalPageCount={JSON.parse(data?.headers?.["x-totalpagescount"])}
           />
         )}
       </section>

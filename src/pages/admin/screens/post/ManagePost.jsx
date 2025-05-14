@@ -232,7 +232,7 @@ export default function Post() {
                 <Pagination
                   onPageChange={(page) => setCurrentPage(page)}
                   currentPage={currentPage}
-                  totalPageCount={postData?.headers?.["x-totalpagescount"]}
+                  totalPageCount={JSON.parse(postData?.headers?.["x-totalpagescount"])}
                 />
               )}
             </div>
