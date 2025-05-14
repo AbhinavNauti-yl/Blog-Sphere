@@ -11,7 +11,7 @@ export default defineConfig({
   server: {
     proxy: {
       '/api': {
-        target: process.env.BASE_URL,
+        target: "https://blog-sphere-backend.onrender.com",
       },
     },
   },
