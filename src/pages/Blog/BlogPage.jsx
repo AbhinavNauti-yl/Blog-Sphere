@@ -40,7 +40,6 @@ export default function BlogPage() {
     },
   });
 
-  console.log(data)
 
   const handleSubmit = (e) => {
     e.preventDefault();

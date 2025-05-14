@@ -118,7 +118,7 @@ export const updateProfileAvatar = async ({ formData }) => {
   try {
     const response = await axios.post(
       "https://blog-sphere-backend.onrender.com/api/users/updateProfileAvatar",
-      formData,
+      {formData},
       { withCredentials: true }
     );
 

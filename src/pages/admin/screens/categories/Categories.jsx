@@ -68,7 +68,6 @@ export default function Categories() {
         return deletedPostCategory({ _id });
       },
       onSuccess: (response) => {
-        console.log(response?.data?.acknowledged);
         if (response?.data?.acknowledged) {
           toast.success("Post Category deleted");
           refetch();

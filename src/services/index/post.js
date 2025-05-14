@@ -50,7 +50,7 @@ const updatePost = async ({ slug, updatedPost }) => {
   try {
     const response = await axios.put(
       `https://blog-sphere-backend.onrender.com/api/posts/${slug}`,
-      updatedPost,
+      {updatedPost},
       { withCredentials: true }
     );
     return response;
