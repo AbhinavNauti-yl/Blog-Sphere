@@ -3,7 +3,8 @@ import axios from "axios";
 const getAllPost = async (search = "", page = 1, limit = 10) => {
   try {
     const { data, headers } = await axios.get(
-      `https://blog-sphere-backend.onrender.com/api/posts?search=${search}&page=${page}&pageSize=${limit}`
+      `https://blog-sphere-backend.onrender.com/api/posts?search=${search}&page=${page}&pageSize=${limit}`,
+      { withCredentials: true }
     );
     return { data, headers };
   } catch (error) {
@@ -16,7 +17,10 @@ const getAllPost = async (search = "", page = 1, limit = 10) => {
 
 const getParticularPost = async ({ slug }) => {
   try {
-    const response = await axios.get(`https://blog-sphere-backend.onrender.com/api/posts/${slug}`);
+    const response = await axios.get(
+      `https://blog-sphere-backend.onrender.com/api/posts/${slug}`,
+      { withCredentials: true }
+    );
     return response.data.data;
   } catch (error) {
     if (error.response && error.response.data.message) {
@@ -27,40 +31,50 @@ const getParticularPost = async ({ slug }) => {
   }
 };
 
-const deletePost = async ({slug}) => {
+const deletePost = async ({ slug }) => {
   try {
-    const response = await axios.delete(`https://blog-sphere-backend.onrender.com/api/posts/${slug}`)
-    return response.data.data
+    const response = await axios.delete(
+      `https://blog-sphere-backend.onrender.com/api/posts/${slug}`,
+      { withCredentials: true }
+    );
+    return response.data.data;
   } catch (error) {
     if (error.response && error.response.data.message) {
       throw new Error(error.response.data.message);
     }
-    throw new Error(error.message)
+    throw new Error(error.message);
   }
 };
 
-const updatePost = async ({slug, updatedPost}) => {
+const updatePost = async ({ slug, updatedPost }) => {
   try {
-    const response = await axios.put(`https://blog-sphere-backend.onrender.com/api/posts/${slug}`, updatedPost, )
-    return response
+    const response = await axios.put(
+      `https://blog-sphere-backend.onrender.com/api/posts/${slug}`,
+      updatedPost,
+      { withCredentials: true }
+    );
+    return response;
   } catch (error) {
-    if(error.response && error.response.data.message) {
-      throw new Error(error.response.data.message)
+    if (error.response && error.response.data.message) {
+      throw new Error(error.response.data.message);
     }
-    throw new Error(error.message)
+    throw new Error(error.message);
   }
-}
+};
 
 const createPost = async () => {
   try {
-    const response = await axios.post("https://blog-sphere-backend.onrender.com/api/posts")
-    return response.data.data
+    const response = await axios.post(
+      "https://blog-sphere-backend.onrender.com/api/posts",
+      { withCredentials: true }
+    );
+    return response.data.data;
   } catch (error) {
-    if(error.response && error.response.data.message) {
-      throw new Error (error.response.data.message)
+    if (error.response && error.response.data.message) {
+      throw new Error(error.response.data.message);
     }
-    throw new Error (error.message)
+    throw new Error(error.message);
   }
-}
+};
 
 export { getAllPost, getParticularPost, deletePost, updatePost, createPost };
