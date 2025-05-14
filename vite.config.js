@@ -1,8 +1,6 @@
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 import tailwindcss from '@tailwindcss/vite'
-import dotenv from "dotenv"
-dotenv.config()
 
 export default defineConfig({
   plugins: [react(),
@@ -11,7 +9,7 @@ export default defineConfig({
   server: {
     proxy: {
       '/api': {
-        target: "https://blog-sphere-backend.onrender.com",
+        target: "http://localhost:80",
         changeOrigin: true,
         secure: false
       },

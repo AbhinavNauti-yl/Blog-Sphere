@@ -2,7 +2,7 @@ import axios from "axios";
 
 export const signup = async ({name, email, password}) => {
   try {
-    const response = await axios.post("/api/users/register", {
+    const response = await axios.post("https://blog-sphere-backend.onrender.com/api/users/register", {
         name,
         email,
         password
@@ -19,7 +19,7 @@ export const signup = async ({name, email, password}) => {
 
 export const login = async ({email, password}) => {
   try {
-    const response = await axios.post("api/users/login", 
+    const response = await axios.post("https://blog-sphere-backend.onrender.com/api/users/login", 
       {
         email,
         password,
@@ -38,7 +38,7 @@ export const login = async ({email, password}) => {
 
 export const logout = async () => {
   try {
-    const response = await axios.get("api/users/logout",{
+    const response = await axios.get("https://blog-sphere-backend.onrender.com/api/users/logout",{
       Credential: true,
     })
     
@@ -56,7 +56,7 @@ export const logout = async () => {
 
 export const getProfile = async () => {
   try {
-    const response = await axios.get("api/users/profile",{
+    const response = await axios.get("https://blog-sphere-backend.onrender.com/api/users/profile",{
       Credential: true,
     })
     
@@ -72,7 +72,7 @@ export const getProfile = async () => {
 
 export const updateProfile = async ({name, email, password}) => {
   try {
-    const response = await axios.post("api/users/updateProfile", {
+    const response = await axios.post("https://blog-sphere-backend.onrender.com/api/users/updateProfile", {
       name, email, password
     })
     return response
@@ -87,7 +87,7 @@ export const updateProfile = async ({name, email, password}) => {
 
 export const deleteProfileAvatar = async () => {
   try {
-    const response = await axios.get("api/users/deleteProfileAvatar", {
+    const response = await axios.get("https://blog-sphere-backend.onrender.com/api/users/deleteProfileAvatar", {
       Credential: true
     })
     
@@ -103,7 +103,7 @@ export const deleteProfileAvatar = async () => {
 
 export const updateProfileAvatar = async ({formData}) => {
   try {
-    const response = await axios.post("api/users/updateProfileAvatar", formData, {
+    const response = await axios.post("https://blog-sphere-backend.onrender.com/api/users/updateProfileAvatar", formData, {
       Credential: true,
     })
     
@@ -120,7 +120,7 @@ export const updateProfileAvatar = async ({formData}) => {
 export const getAllUsers = async (search = "", page = 1, limit = 10) => {
   try {
     // http://localhost:5173/api/users/getAllUsers
-    const response = await axios.get(`/api/users/getAllUsers?search=${search}&page=${page}&pageSize=${limit}`)
+    const response = await axios.get(`https://blog-sphere-backend.onrender.com/api/users/getAllUsers?search=${search}&page=${page}&pageSize=${limit}`)
     return response
   } catch (error) {
     if(error.response && error.response.data.message) {
@@ -133,7 +133,7 @@ export const getAllUsers = async (search = "", page = 1, limit = 10) => {
 
 export const deleteUsers = async ({id}) => {
   try {
-    const response = await axios.delete(`/api/users/deleteUsers/${id}`)
+    const response = await axios.delete(`https://blog-sphere-backend.onrender.com/api/users/deleteUsers/${id}`)
     return response.data.data
   } catch (error) {
     if(error.response && error.response.data.message) {
@@ -146,7 +146,7 @@ export const deleteUsers = async ({id}) => {
 
 export const setVarifiedUsers = async () => {
   try {
-    const response = await axios.put(`/api/users/setVarifiedUser`)
+    const response = await axios.put(`https://blog-sphere-backend.onrender.com/api/users/setVarifiedUser`)
     return response.data.data
   } catch (error) {
     if(error.response && error.response.data.message) {

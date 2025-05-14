@@ -3,7 +3,7 @@ import axios from "axios";
 const getAllPost = async (search = "", page = 1, limit = 10) => {
   try {
     const { data, headers } = await axios.get(
-      `/api/posts?search=${search}&page=${page}&pageSize=${limit}`
+      `https://blog-sphere-backend.onrender.com/api/posts?search=${search}&page=${page}&pageSize=${limit}`
     );
     return { data, headers };
   } catch (error) {
@@ -16,7 +16,7 @@ const getAllPost = async (search = "", page = 1, limit = 10) => {
 
 const getParticularPost = async ({ slug }) => {
   try {
-    const response = await axios.get(`/api/posts/${slug}`);
+    const response = await axios.get(`https://blog-sphere-backend.onrender.com/api/posts/${slug}`);
     return response.data.data;
   } catch (error) {
     if (error.response && error.response.data.message) {
@@ -29,7 +29,7 @@ const getParticularPost = async ({ slug }) => {
 
 const deletePost = async ({slug}) => {
   try {
-    const response = await axios.delete(`/api/posts/${slug}`)
+    const response = await axios.delete(`https://blog-sphere-backend.onrender.com/api/posts/${slug}`)
     return response.data.data
   } catch (error) {
     if (error.response && error.response.data.message) {
@@ -41,7 +41,7 @@ const deletePost = async ({slug}) => {
 
 const updatePost = async ({slug, updatedPost}) => {
   try {
-    const response = await axios.put(`/api/posts/${slug}`, updatedPost, )
+    const response = await axios.put(`https://blog-sphere-backend.onrender.com/api/posts/${slug}`, updatedPost, )
     return response
   } catch (error) {
     if(error.response && error.response.data.message) {
@@ -53,7 +53,7 @@ const updatePost = async ({slug, updatedPost}) => {
 
 const createPost = async () => {
   try {
-    const response = await axios.post("/api/posts")
+    const response = await axios.post("https://blog-sphere-backend.onrender.com/api/posts")
     return response.data.data
   } catch (error) {
     if(error.response && error.response.data.message) {
