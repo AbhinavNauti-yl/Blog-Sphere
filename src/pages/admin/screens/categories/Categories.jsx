@@ -234,9 +234,9 @@ export default function Categories() {
                   <Pagination
                     onPageChange={(page) => setCurrentPage(page)}
                     currentPage={currentPage}
-                    totalPageCount={JSON.parse(
-                      postCategoryData?.headers?.["x-totalPagesCount"]
-                    )}
+                    totalPageCount={
+                      postCategoryData?.headers?.["x-Totalpagescount"]
+                    }
                   />
                 )}
               </div>
