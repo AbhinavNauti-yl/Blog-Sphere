@@ -1,4 +1,3 @@
-import React from 'react'
 import ArticleCard from '../../../components/ArticleCard'
 import { MdExpandMore } from "react-icons/md";
 import {useQuery} from "@tanstack/react-query"

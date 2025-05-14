@@ -1,5 +1,4 @@
 import { useQuery } from "@tanstack/react-query";
-import React, { useDeferredValue } from "react";
 import { getProfile } from "../../../services/index/user";
 import { CiCamera } from "react-icons/ci";
 import { useNavigate } from "react-router-dom";

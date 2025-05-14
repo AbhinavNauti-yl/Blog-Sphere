@@ -1,7 +1,7 @@
 import React from "react";
 import MainLayout from "../../components/MainLayout";
 import BreadCrumbs from "../../components/BreadCrumbs";
-import ArtticleDetailSkeleton from "./component/ArticleDetailSkeleton.jsx";
+import ArticleDetailSkeleton from "./component/ArticleDetailSkeleton";
 import { useParams } from "react-router-dom";
 import images from "../../constants/images";
 import SuggestedPost from "./continer/SuggestedPost";
@@ -20,28 +20,6 @@ import Italic from "@tiptap/extension-italic";
 import ErroMessage from "../../components/ErroMessage.jsx";
 import Editor from "../../components/editor/Editor.jsx";
 
-// const SuggestedPostData = [
-//   {
-//     _id: 1,
-//     image: images.p1,
-//     title: "Help poor feed them daily",
-//     createdAt: "10 feb",
-//   },
-//   {
-//     _id: 2,
-//     image: images.p1,
-//     title: "Help poor feed them daily",
-//     createdAt: "10 feb",
-//   },
-//   {
-//     _id: 3,
-//     image: images.p1,
-//     title: "Help poor feed them daily",
-//     createdAt: "10 feb",
-//   },
-// ];
-
-const tagsData = ["Animal", "Education", "Wealth", "Nature", "Birds"];
 
 export default function ArticleDetailPage() {
   const { slug } = useParams();
@@ -88,7 +66,7 @@ export default function ArticleDetailPage() {
   return (
     <MainLayout>
       {isPending ? (
-        <ArtticleDetailSkeleton />
+        <ArticleDetailSkeleton />
       ) : isError ? (
         <ErroMessage message="Could not fetch this article" />
       ) : (

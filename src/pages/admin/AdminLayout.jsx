@@ -1,4 +1,3 @@
-import React, { useEffect } from "react";
 import Header from "./components/header/Header";
 import { data, Outlet, useNavigate } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
