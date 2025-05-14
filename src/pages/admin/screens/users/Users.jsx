@@ -241,7 +241,7 @@ export default function Users() {
                 <Pagination
                   onPageChange={(page) => setCurrentPage(page)}
                   currentPage={currentPage}
-                  totalPageCount={usersData?.headers?.["x-Totalpagescount"]}
+                  totalPageCount={usersData?.headers?.["x-totalpagescount"]}
                 />
               )}
             </div>

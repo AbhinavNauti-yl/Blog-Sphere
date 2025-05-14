@@ -235,7 +235,7 @@ export default function Categories() {
                     onPageChange={(page) => setCurrentPage(page)}
                     currentPage={currentPage}
                     totalPageCount={
-                      postCategoryData?.headers?.["x-Totalpagescount"]
+                      postCategoryData?.headers?.["x-totalpagescount"]
                     }
                   />
                 )}
