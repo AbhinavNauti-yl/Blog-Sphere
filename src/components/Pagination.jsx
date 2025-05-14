@@ -14,7 +14,7 @@ export default function Pagination({
     totalPageCount,
   });
 
-  if (currentPage === 0 || paginationRange.length < 2) {
+  if (currentPage === 0 || paginationRange?.length < 2) {
     return null;
   }
 
