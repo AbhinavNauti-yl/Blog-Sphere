@@ -3,7 +3,6 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
-  "proxy": "http://localhost:80",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
@@ -29,6 +28,7 @@
     "@uidotdev/usehooks": "^2.4.1",
     "axios": "^1.8.2",
     "daisyui": "^4.12.23",
+    "dotenv": "^16.5.0",
     "highlight.js": "^11.11.1",
     "html-react-parser": "^5.2.3",
     "react": "^18.3.1",

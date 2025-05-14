@@ -17,13 +17,13 @@ const Hero = () => {
         <div className="flex flex-col mt-15 gap-2 lg:flex-row ">
           <span className="text-grey-500 ">Popular Tags:</span>
           <ul className="flex flex-wrap flex-row lg gap-5 ">
-            <li className="rounded-lg bg-amber-200 text-black px-2 py-1 ">
+            <li className="rounded-lg bg-blue-100 text-black px-2 py-1 ">
               <a href="/">Frontend</a>
             </li>
-            <li className="rounded-lg bg-amber-200 text-black px-2 py-1 ">
+            <li className="rounded-lg bg-blue-100 text-black px-2 py-1 ">
               <a href="/">Backend</a>
             </li>
-            <li className="rounded-lg bg-amber-200 text-black px-2 py-1 ">
+            <li className="rounded-lg bg-blue-100 text-black px-2 py-1 ">
               <a href="/">Full Stack</a>
             </li>
           </ul>
