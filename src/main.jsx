@@ -10,6 +10,7 @@ import { Provider } from "react-redux";
 
 import { QueryClientProvider, QueryClient } from "@tanstack/react-query";
 axios.defaults.baseURL = process.env.BASE_URL
+axios.defaults.withCredentials = true
 const queryClient = new QueryClient();
 
 createRoot(document.getElementById("root")).render(
