@@ -15,11 +15,19 @@ import { IoIosCreate } from "react-icons/io";
 import { createPost } from "../../../../services/index/post";
 import { FaRegUser } from "react-icons/fa";
 import { useSelector } from "react-redux";
+import { getProfile } from "../../../services/index/user";
+import { useQuery } from "@tanstack/react-query";
+
 
 export default function Header() {
   const [isMenuActive, setIsmenuActive] = useState(false);
   const [activeNavName, setActiveNavName] = useState("dashboard");
-  const user = useSelector((state) => state.userSlice);
+  const {data: user, isPending: loadingUser, isError} = useQuery({
+    queryKey: ["profile"],
+    queryFn: () => {
+      return getProfile()
+    }
+  })
 
   const queryClient = useQueryClient();
   const navigate = useNavigate();
@@ -99,7 +107,7 @@ export default function Header() {
                 setActiveNavName={setActiveNavName}
               />
 
-              {user?.userInfo.admin && (
+              {user?.admin && (
                 <NavItem
                   title="Users"
                   link="/admin/users"
@@ -110,7 +118,7 @@ export default function Header() {
                 />
               )}
 
-              {user?.userInfo.admin && (
+              {user?.admin && (
                 <NavItem
                   title="Categories"
                   link="/admin/categories"
@@ -121,7 +129,7 @@ export default function Header() {
                 />
               )}
 
-              {user?.userInfo.admin && (
+              {user?.admin && (
                 <NavItem
                   title="Posts"
                   link="/admin/post"
@@ -132,7 +140,7 @@ export default function Header() {
                 />
               )}
 
-              {(user?.userInfo.admin || user?.userInfo.varified) && (
+              {(user?.admin || user?.varified) && (
                 <div onClick={() => handelCreateNewPost()}>
                   <NavItem
                     title="New Post"
