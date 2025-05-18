@@ -169,6 +169,7 @@ export const setVarifiedUsers = async () => {
   try {
     const response = await axios.put(
       "https://blog-sphere-backend.onrender.com/api/users/setVarifiedUser",
+      {},
       { withCredentials: true }
     );
     return response.data.data;
