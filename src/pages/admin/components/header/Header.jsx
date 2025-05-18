@@ -14,8 +14,7 @@ import { MdDashboard } from "react-icons/md";
 import { IoIosCreate } from "react-icons/io";
 import { createPost } from "../../../../services/index/post";
 import { FaRegUser } from "react-icons/fa";
-import { useSelector } from "react-redux";
-import { getProfile } from "../../../services/index/user";
+import { getProfile } from "../../../../services/index/user";
 import { useQuery } from "@tanstack/react-query";
 
 
