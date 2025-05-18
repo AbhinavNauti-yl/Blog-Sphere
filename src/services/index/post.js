@@ -71,6 +71,9 @@ const createPost = async () => {
   try {
     const response = await axios.post(
       "https://blog-sphere-backend.onrender.com/api/posts/",
+      {
+        Credential: true
+      },
       { withCredentials: true }
     );
     return response.data.data;
