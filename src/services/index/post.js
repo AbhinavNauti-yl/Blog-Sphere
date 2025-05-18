@@ -70,7 +70,7 @@ const updatePost = async ({ slug, updatedPost }) => {
 const createPost = async () => {
   try {
     const response = await axios.post(
-      "https://blog-sphere-backend.onrender.com/api/posts",
+      "https://blog-sphere-backend.onrender.com/api/posts/",
       { withCredentials: true }
     );
     return response.data.data;
