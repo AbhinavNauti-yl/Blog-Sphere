@@ -50,8 +50,13 @@ const updatePost = async ({ slug, updatedPost }) => {
   try {
     const response = await axios.put(
       `https://blog-sphere-backend.onrender.com/api/posts/${slug}`,
-      {updatedPost},
-      { withCredentials: true }
+      { updatedPost },
+      {
+        withCredentials: true,
+        headers: {
+          "Content-Type": "multipart/form-data", // this is fine in axios
+        },
+      }
     );
     return response;
   } catch (error) {
